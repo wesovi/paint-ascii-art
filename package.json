@@ -1,15 +1,22 @@
 {
   "name": "paint-ascii-art",
   "version": "0.0.1",
-  "description": "paint in browser ascii art",
+  "description": "paint ascii art in browser ",
   "main": "paint-ascii-art.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "keywords": [
     "ascii",
-    "art"
+    "art",
+    "draw",
+    "paint"
   ],
   "author": "Nicolas Quiceno",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-catch-exception": "^1.0.0",
+    "mocha": "^2.4.5"
+  }
 }
