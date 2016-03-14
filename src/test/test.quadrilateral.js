@@ -1,37 +1,33 @@
-"use strict";
-
-var expect = chai.expect;
-
-//var should = chai.should();
-
-var Quadrilateral;
+var expect = require('chai').expect;
+const Quadrilateral = require('../lib/quadrilateral');
 
 describe('Create a square.',function(){
 
-    it('create square with default values', function() {
+    it('creates a square with default values', function() {
       var square = Quadrilateral.create().build();
       // DEFAULT { width : 1, height : 1, size : 2}
-      expect(square.content).be.equal([
+      console.log(square.content);
+      expect(square.content).to.eql([
         'MM',
         'MM'
       ]);
-      expect(square.degree).be.equal(0);
+      expect(square.degree).to.equal(0);
     });
 
-    it('create rectangle with params in create', function() {
+    it('creates a rectangle when invoking create method with arguments', function() {
       var rec = Quadrilateral.create({
         width : 1,
         height : 0.5,
         size : 4
       });
 
-      expect(rec.build().content).be.equal([
+      expect(rec.build().content).to.eql([
         'MMMM',
         'MMMM'
       ]);
     });
 
-    it('create rectangle force errors', function() {
+    it('throws an Error when creating a rectangle', function() {
       expect(function(){
         Quadrilateral.create({
           width : 1,
@@ -52,13 +48,13 @@ describe('Create a square.',function(){
 
     });
 
-    it('create rectangle with various sizes', function() {
+    it('creates a rectangle with various sizes', function() {
       var recOne = Quadrilateral.create()
                   .width(0.5)
                   .size(4)
                   ;
 
-      expect(recOne.build().content).be.equal([
+      expect(recOne.build().content).to.eql([
         'MM',
         'MM',
         'MM',
@@ -69,7 +65,7 @@ describe('Create a square.',function(){
         .width(1)
         ;
 
-      expect(recOne.build().content).be.equal([
+      expect(recOne.build().content).to.eql([
         'MMMM',
         'MMMM',
         'MMMM',
@@ -86,19 +82,19 @@ describe('Create a square.',function(){
                       ;
 
       // DEFAULT size : 2
-      expect(recTwo.content).be.equal([
-        'MMMMMM'
+      expect(recTwo.content).to.eql([
+        'MMMMMM',
         'MMMMMM'
       ]);
     });
 
-    it('create square with various degree tilt', function() {
+    it('creates a square with various degree tilt', function() {
       var square = Quadrilateral.create()
                       .degree(45);
 
-      expect(square.build().degree).be.equal(45);
+      expect(square.build().degree).to.equal(45);
       square.degree(-45);
-      expect(square.build().degree).be.equal(-45);
+      expect(square.build().degree).to.equal(-45);
 
       expect(function () {
         square.degree(365);

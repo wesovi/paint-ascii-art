@@ -4,7 +4,7 @@
   "description": "paint ascii art in browser ",
   "main": "paint-ascii-art.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha src/test/*.js"
   },
   "keywords": [
     "ascii",
