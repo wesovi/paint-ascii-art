@@ -1,12 +1,11 @@
 var expect = require('chai').expect;
-const Quadrilateral = require('../lib/quadrilateral');
+const Quadrilateral = require('../lib/quadrilateral/quadrilateral');
 
 describe('Create a square.',function(){
 
     it('creates a square with default values', function() {
       var square = Quadrilateral.create().build();
       // DEFAULT { width : 1, height : 1, size : 2}
-      console.log(square.content);
       expect(square.content).to.eql([
         'MM',
         'MM'
@@ -33,18 +32,18 @@ describe('Create a square.',function(){
           width : 1,
           height : 'm',
           size : 4
-        });
-      }).to.throw(Error);
+        }).build();
+      }).to.throw(TypeError);
 
       expect(function(){
         Quadrilateral.create()
-          .degree('m');
-      }).to.throw(Error);
+          .degree('m').build();
+      }).to.throw(TypeError);
 
       expect(function(){
         Quadrilateral.create()
-          .width('m');
-      }).to.throw(Error);
+          .width('m').build();
+      }).to.throw(TypeError);
 
     });
 
@@ -95,10 +94,10 @@ describe('Create a square.',function(){
       expect(square.build().degree).to.equal(45);
       square.degree(-45);
       expect(square.build().degree).to.equal(-45);
-
-      expect(function () {
-        square.degree(365);
-      }).to.throw(Error);
+      square.degree(365);
+      expect(square.build().degree).to.equal(5);
+      square.degree(-370);
+      expect(square.build().degree).to.equal(-10);
     });
 
 });
