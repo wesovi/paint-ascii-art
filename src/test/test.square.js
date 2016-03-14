@@ -2,7 +2,7 @@
 
 var expect = chai.expect;
 
-var should = chai.should();
+//var should = chai.should();
 
 var Quadrilateral;
 
@@ -11,11 +11,11 @@ describe('Create a square.',function(){
     it('create square with default values', function() {
       var square = Quadrilateral.create().build();
       // DEFAULT { width : 1, height : 1, size : 2}
-      expect(square.content.should.be.equal([
+      expect(square.content).be.equal([
         'MM',
         'MM'
-      ]));
-      expect(square.degree.should.be.equal(0));
+      ]);
+      expect(square.degree).be.equal(0);
     });
 
     it('create rectangle with params in create', function() {
@@ -25,10 +25,31 @@ describe('Create a square.',function(){
         size : 4
       });
 
-      expect(rec.build().content.should.be.equal([
+      expect(rec.build().content).be.equal([
         'MMMM',
         'MMMM'
-      ]));
+      ]);
+    });
+
+    it('create rectangle force errors', function() {
+      expect(function(){
+        Quadrilateral.create({
+          width : 1,
+          height : 'm',
+          size : 4
+        });
+      }).to.throw(Error);
+
+      expect(function(){
+        Quadrilateral.create()
+          .degree('m');
+      }).to.throw(Error);
+
+      expect(function(){
+        Quadrilateral.create()
+          .width('m');
+      }).to.throw(Error);
+
     });
 
     it('create rectangle with various sizes', function() {
@@ -37,18 +58,18 @@ describe('Create a square.',function(){
                   .size(4)
                   ;
 
-      expect(recOne.build().content.should.be.equal([
+      expect(recOne.build().content).be.equal([
         'MM',
         'MM',
         'MM',
         'MM'
-      ]));
+      ]);
 
       recOne.height(2)
         .width(1)
         ;
 
-      expect(recOne.build().content.should.be.equal([
+      expect(recOne.build().content).be.equal([
         'MMMM',
         'MMMM',
         'MMMM',
@@ -57,7 +78,7 @@ describe('Create a square.',function(){
         'MMMM',
         'MMMM',
         'MMMM'
-      ]));
+      ]);
 
       var recTwo = Quadrilateral.create()
                       .width(3)
@@ -65,20 +86,23 @@ describe('Create a square.',function(){
                       ;
 
       // DEFAULT size : 2
-      expect(recTwo.content.should.be.equal([
+      expect(recTwo.content).be.equal([
         'MMMMMM'
         'MMMMMM'
-      ]));
+      ]);
     });
 
     it('create square with various degree tilt', function() {
       var square = Quadrilateral.create()
-                      .degree(45)
-                      ;
-      expect(square.build().degree.should.be.equal(45));
-      square.degree(365);
-      expect(square.build().degree.should.be.equal(5));
+                      .degree(45);
+
+      expect(square.build().degree).be.equal(45);
       square.degree(-45);
-      expect(square.build().degree.should.be.equal(5));
+      expect(square.build().degree).be.equal(-45);
+
+      expect(function () {
+        square.degree(365);
+      }).to.throw(Error);
     });
+
 });
