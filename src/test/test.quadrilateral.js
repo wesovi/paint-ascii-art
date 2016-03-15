@@ -1,11 +1,15 @@
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 const Quadrilateral = require('../lib/quadrilateral/quadrilateral');
 
-describe('Create a square.',function(){
+describe('Build an array that represents a quadrilateral.',function(){
 
-    it('creates a square with default values', function() {
-      var square = Quadrilateral.create().build();
+    it('should the create be defined and function', function() {
+      expect(Quadrilateral.create).to.be.a('function');
+    });
+
+    it('should return a square with default values', function() {
       // DEFAULT { width : 1, height : 1, size : 2}
+      const square = Quadrilateral.create().build();
       expect(square.content).to.eql([
         'MM',
         'MM'
@@ -13,7 +17,7 @@ describe('Create a square.',function(){
       expect(square.degree).to.equal(0);
     });
 
-    it('creates a rectangle when invoking create method with arguments', function() {
+    it('should return a quadrilateral when invoking create method with params', function() {
       var rec = Quadrilateral.create({
         width : 1,
         height : 0.5,
@@ -26,7 +30,7 @@ describe('Create a square.',function(){
       ]);
     });
 
-    it('throws an Error when creating a rectangle', function() {
+    it('should return throws an Error when creating a quadrilateral', function() {
       expect(function(){
         Quadrilateral.create({
           width : 1,
@@ -47,11 +51,10 @@ describe('Create a square.',function(){
 
     });
 
-    it('creates a rectangle with various sizes', function() {
+    it('should return differents quadrilaterals with various sizes', function() {
       var recOne = Quadrilateral.create()
                   .width(0.5)
-                  .size(4)
-                  ;
+                  .size(4);
 
       expect(recOne.build().content).to.eql([
         'MM',
@@ -61,8 +64,7 @@ describe('Create a square.',function(){
       ]);
 
       recOne.height(2)
-        .width(1)
-        ;
+        .width(1);
 
       expect(recOne.build().content).to.eql([
         'MMMM',
@@ -77,8 +79,7 @@ describe('Create a square.',function(){
 
       var recTwo = Quadrilateral.create()
                       .width(3)
-                      .build()
-                      ;
+                      .build();
 
       // DEFAULT size : 2
       expect(recTwo.content).to.eql([
@@ -87,7 +88,7 @@ describe('Create a square.',function(){
       ]);
     });
 
-    it('creates a square with various degree tilt', function() {
+    it('should return differents quadrilaterals with various degree tilt', function() {
       var square = Quadrilateral.create()
                       .degree(45);
 
