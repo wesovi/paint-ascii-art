@@ -7,6 +7,10 @@ describe('Build an array that represents a quadrilateral.',function(){
       expect(Quadrilateral.create).to.be.a('function');
     });
 
+    it('should return a builder object', function() {
+      expect(Quadrilateral.create()).to.be.a('object');
+    });
+
     it('should return a square with default values', function() {
       // DEFAULT { width : 1, height : 1, size : 2}
       const square = Quadrilateral.create().build();
