@@ -29,8 +29,8 @@ function create(valuesToCreate = {}){
     }();
 
     const degree = getValidDegree(valuesToBuild.degree);
-    const content = Array(valuesToBuild.height * valuesToBuild.size)
-      .fill('M'.repeat(valuesToBuild.width * valuesToBuild.size));
+    const content = Array(Math.round(valuesToBuild.height * valuesToBuild.size))
+      .fill('M'.repeat(Math.round(valuesToBuild.width * valuesToBuild.size)));
 
     return {
       content,

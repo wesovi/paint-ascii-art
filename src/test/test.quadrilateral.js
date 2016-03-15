@@ -30,6 +30,18 @@ describe('Build an array that represents a quadrilateral.',function(){
       ]);
     });
 
+    it('should return a quadrilateral when invoking create method with float numbers', function() {
+      var rec = Quadrilateral.create({
+        width : 0.333,
+        height : 0.333,
+        size : 4
+      });
+
+      expect(rec.build().content).to.eql([
+        'M'
+      ]);
+    });
+
     it('should return throws an Error when creating a quadrilateral', function() {
       expect(function(){
         Quadrilateral.create({
