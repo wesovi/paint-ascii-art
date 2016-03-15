@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Quadrilateral = require('../lib/quadrilateral/quadrilateral');
+const Quadrilateral = require('../lib/quadrilateral');
 
 describe('Build an array that represents a quadrilateral.',function(){
 
