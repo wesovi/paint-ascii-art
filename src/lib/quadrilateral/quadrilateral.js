@@ -1,63 +1,63 @@
 "use strict";
 
-function create(valuesToCreate = {}){
-
-  const valuesToBuild = Object.assign({
+const getBuilderData = function getBuilderData(valuesToCreate){
+  return Object.assign({
     width : 1,
     height : 1,
     size : 2,
     degree : 0
   }, valuesToCreate);
+};
 
-  function areNumbersTheValues(values) {
-    return !Object.keys(values).some(function(value){
-      return Number.isNaN(+values[value]);
-    });
-  }
+const areNumbersTheValues = function areNumbersTheValues(values) {
+  return !Object.keys(values).some(function(value){
+    return Number.isNaN(+values[value]);
+  });
+};
 
-  function getValidDegree(degree) {
-    const sign = degree > 0 ? +1 : -1;
-    degree = Math.abs(degree);
-    return sign * (function recursiveDegree(degreeR){
-      return degreeR >= 360 ? recursiveDegree((degreeR - 360)) : degreeR;
-    })(degree);
-  }
+const getValidDegree = function getValidDegree(degree) {
+  const sign = degree > 0 ? +1 : -1;
+  degree = Math.abs(degree);
+  return sign * (function recursiveDegree(degreeR){
+    return degreeR >= 360 ? recursiveDegree((degreeR - 360)) : degreeR;
+  })(degree);
+};
 
-  const build = function build() {
-    areNumbersTheValues(valuesToBuild) || function(){
+const getArrayContent = function getArrayContent(valuesToBuild){
+  return Array(Math.round(valuesToBuild.height * valuesToBuild.size))
+    .fill('M'.repeat(Math.round(valuesToBuild.width * valuesToBuild.size)));
+};
+
+const setValueInBuilderFn = function setValueFn(key, builderData) {
+  return function(value){
+    builderData[key] = value;
+    return this;
+  };
+};
+
+const getBuilderFn = function getBuilderFn(builderData){
+  return function build() {
+    areNumbersTheValues(builderData) || function(){
       throw new TypeError('value to build is nan');
     }();
 
-    const degree = getValidDegree(valuesToBuild.degree);
-    const content = Array(Math.round(valuesToBuild.height * valuesToBuild.size))
-      .fill('M'.repeat(Math.round(valuesToBuild.width * valuesToBuild.size)));
-
     return {
-      content,
-      degree
-    };
-  };
-
-  const setValueFn = function setValueFn(key) {
-    return function(value){
-      valuesToBuild[key] = value;
-      return this;
+      content : getArrayContent(builderData),
+      degree : getValidDegree(builderData.degree)
     };
   }
-
-  return Object.freeze({
-    build,
-
-    width : setValueFn('width'),
-
-    height : setValueFn('height'),
-
-    size : setValueFn('size'),
-
-    degree : setValueFn('degree')
-  });
-}
+};
 
 module.exports = {
-  create
+  create : function create(valuesToCreate = {}){
+    const builderData = getBuilderData(valuesToCreate);
+
+    return Object.freeze({
+      build  : getBuilderFn(builderData),
+      width  : setValueInBuilderFn('width', builderData),
+      height : setValueInBuilderFn('height', builderData),
+      size   : setValueInBuilderFn('size', builderData),
+      degree : setValueInBuilderFn('degree', builderData)
+    });
+  }
 };
