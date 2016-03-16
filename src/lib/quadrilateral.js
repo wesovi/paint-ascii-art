@@ -16,11 +16,7 @@ const areNumbersTheValues = function areNumbersTheValues(values) {
 };
 
 const getValidDegree = function getValidDegree(degree) {
-  const sign = degree > 0 ? +1 : -1;
-  degree = Math.abs(degree);
-  return sign * (function recursiveDegree(degreeR){
-    return degreeR >= 360 ? recursiveDegree((degreeR - 360)) : degreeR;
-  })(degree);
+    return degree % 360;
 };
 
 const getArrayContent = function getArrayContent(valuesToBuild){
