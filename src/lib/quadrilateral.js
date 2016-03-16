@@ -9,19 +9,21 @@ const getBuilderData = function getBuilderData(valuesToCreate){
   }, valuesToCreate);
 };
 
-const areNumbersTheValues = function areNumbersTheValues(values) {
-  return !Object.keys(values).some(function(value){
-    return Number.isNaN(+values[value]);
-  });
+const areNumbersTheValues = function areNumbersTheValues(valuesToCheck) {
+  return !valuesToCheck.some((value) => Number.isNaN(+value));
 };
 
 const getValidDegree = function getValidDegree(degree) {
     return degree % 360;
 };
 
-const getArrayContent = function getArrayContent(valuesToBuild){
-  return Array(Math.round(valuesToBuild.height * valuesToBuild.size))
-    .fill('M'.repeat(Math.round(valuesToBuild.width * valuesToBuild.size)));
+const multValsAndRound = function multValsAndRound(...vals){
+  return Math.round(vals.reduce((total, elem) => total * elem));
+};
+
+const getArrayContent = function getArrayContent(size, height, width){
+  return Array(multValsAndRound(height, size))
+    .fill(Array(multValsAndRound(width, size)).fill('M'));
 };
 
 const setValueInBuilderFn = function setValueFn(key, builderData) {
@@ -33,13 +35,14 @@ const setValueInBuilderFn = function setValueFn(key, builderData) {
 
 const getBuilderFn = function getBuilderFn(builderData){
   return function build() {
-    areNumbersTheValues(builderData) || function(){
+    const {size, height, width, degree}  = builderData;
+    areNumbersTheValues([size, height, width, degree]) || function(){
       throw new TypeError('value to build is nan');
     }();
 
     return {
-      content : getArrayContent(builderData),
-      degree : getValidDegree(builderData.degree)
+      content : getArrayContent(size, height, width),
+      degree : getValidDegree(degree)
     };
   }
 };

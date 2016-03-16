@@ -15,8 +15,8 @@ describe('Build an array that represents a quadrilateral.',function(){
       // DEFAULT { width : 1, height : 1, size : 2}
       const square = Quadrilateral.create().build();
       expect(square.content).to.eql([
-        'MM',
-        'MM'
+        ['M','M'],
+        ['M','M']
       ]);
       expect(square.degree).to.equal(0);
     });
@@ -29,8 +29,8 @@ describe('Build an array that represents a quadrilateral.',function(){
       });
 
       expect(rec.build().content).to.eql([
-        'MMMM',
-        'MMMM'
+        ['M','M','M','M'],
+        ['M','M','M','M']
       ]);
     });
 
@@ -42,7 +42,7 @@ describe('Build an array that represents a quadrilateral.',function(){
       });
 
       expect(rec.build().content).to.eql([
-        'M'
+        ['M']
       ]);
     });
 
@@ -73,24 +73,24 @@ describe('Build an array that represents a quadrilateral.',function(){
                   .size(4);
 
       expect(recOne.build().content).to.eql([
-        'MM',
-        'MM',
-        'MM',
-        'MM'
+        ['M','M'],
+        ['M','M'],
+        ['M','M'],
+        ['M','M']
       ]);
 
       recOne.height(2)
         .width(1);
 
       expect(recOne.build().content).to.eql([
-        'MMMM',
-        'MMMM',
-        'MMMM',
-        'MMMM',
-        'MMMM',
-        'MMMM',
-        'MMMM',
-        'MMMM'
+        ['M','M','M','M'],
+        ['M','M','M','M'],
+        ['M','M','M','M'],
+        ['M','M','M','M'],
+        ['M','M','M','M'],
+        ['M','M','M','M'],
+        ['M','M','M','M'],
+        ['M','M','M','M']
       ]);
 
       var recTwo = Quadrilateral.create()
@@ -99,22 +99,25 @@ describe('Build an array that represents a quadrilateral.',function(){
 
       // DEFAULT size : 2
       expect(recTwo.content).to.eql([
-        'MMMMMM',
-        'MMMMMM'
+        ['M','M','M','M','M','M'],
+        ['M','M','M','M','M','M']
       ]);
     });
 
     it('should return differents quadrilaterals with various degree tilt', function() {
-      var square = Quadrilateral.create()
-                      .degree(45);
+      const square = Quadrilateral.create();
+      const degrees = [
+        { toSet : 45, toExpect : 45 },
+        { toSet : -45, toExpect : -45 },
+        { toSet : 365, toExpect : 5 },
+        { toSet : -370, toExpect : -10 }
+      ];
 
-      expect(square.build().degree).to.equal(45);
-      square.degree(-45);
-      expect(square.build().degree).to.equal(-45);
-      square.degree(365);
-      expect(square.build().degree).to.equal(5);
-      square.degree(-370);
-      expect(square.build().degree).to.equal(-10);
+      degrees.forEach(function(objToTest){
+        const { toSet : degree , toExpect : result } = objToTest;
+        square.degree(degree);
+        expect(square.build().degree).to.equal(result);
+      });
     });
 
 });

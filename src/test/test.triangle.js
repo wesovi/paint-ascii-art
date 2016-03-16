@@ -12,37 +12,99 @@ describe('Build an array that represents a triangle.',function(){
     });
 
     it('should return a triangle with default values', function() {
-      //TO IMPLEMENT
+      const triangle = Triangle.create().build();
+      // DEFAULT { base : 3}
+      expect(triangle.content).to.eql([
+        ['·','M','·'],
+        ['M','M','M']
+      ]);
+
       expect(square.degree).to.equal(0);
     });
 
     it('should return a triangle when invoking create method with params', function() {
-      //TO IMPLEMENT
+      const triangle = Triangle.create({
+        base : 9
+      }).build();
+      expect(triangle.content).to.eql([
+        ['·','·','·','·','M','·','·','·','·'],
+        ['·','·','·','M','M','M','·','·','·'],
+        ['·','·','M','M','M','M','M','·','·'],
+        ['·','M','M','M','M','M','M','M','·'],
+        ['M','M','M','M','M','M','M','M','M']
+      ]);
     });
 
     it('should return a triangle when invoking create method with float numbers', function() {
-      //TO IMPLEMENT
+      const triangle = Triangle.create({
+        base : 9.111111
+      }).build();
+      expect(triangle.content).to.eql([
+        ['·','·','·','·','M','·','·','·','·'],
+        ['·','·','·','M','M','M','·','·','·'],
+        ['·','·','M','M','M','M','M','·','·'],
+        ['·','M','M','M','M','M','M','M','·'],
+        ['M','M','M','M','M','M','M','M','M']
+      ]);
     });
+
 
     it('should return throws an Error when creating a triangle', function() {
-      //TO IMPLEMENT
+      expect(function(){
+        Triangle.create({
+          base : 'm'
+        }).build();
+      }).to.throw(TypeError);
+
+      expect(function(){
+        Triangle.create().base('m').build();
+      }).to.throw(TypeError);
     });
 
-    it('should return differents triangles with various sizes', function() {
-      //TO IMPLEMENT
+    it('should return differents triangles with various values to base', function() {
+      const triangle = Triangle.create();
+      [{
+          base : 6,
+          output : [
+            ['·','·','M','M','·','·'],
+            ['·','M','M','M','M','·'],
+            ['M','M','M','M','M','M']
+          ]
+        }, {
+          base : 3,
+          output : [
+            ['·','M','·'],
+            ['M','M','M']
+          ]
+        }, {
+          base : 2,
+          output : [
+            ['M','M']
+          ]
+        }, {
+          base : 1,
+          output : [
+            ['M']
+          ]
+      }].forEach(function(objToTest) {
+        const {base, output} = objToTest;
+        triangle.base(6);
+        expect(triangle.build().content).to.eql(output);
+      });
     });
 
     it('should return differents triangles with various degree tilt', function() {
-      const triangle = Triangle.create()
-                      .degree(45);
-
-      expect(triangle.build().degree).to.equal(45);
-      triangle.degree(-45);
-      expect(triangle.build().degree).to.equal(-45);
-      triangle.degree(365);
-      expect(triangle.build().degree).to.equal(5);
-      triangle.degree(-370);
-      expect(triangle.build().degree).to.equal(-10);
+      const triangle = Triangle.create();
+      const degrees = [
+        { toSet : 45, toExpect : 45 },
+        { toSet : -45, toExpect : -45 },
+        { toSet : 365, toExpect : 5 },
+        { toSet : -370, toExpect : -10 }
+      ].forEach(function(objToTest){
+        const { toSet : degree , toExpect : result } = objToTest;
+        triangle.degree(degree);
+        expect(triangle.build().degree).to.equal(result);
+      });
     });
 
 });
